@@ -27,12 +27,12 @@ var redirectRussia = () => {
       // To listen to this event, you can add the following JavaScript:
       // document.addEventListener("redirect-russia", (event) => { /* */ }, false);
       var event = new Event("redirect-russia");
-      document.dispatchEvent(event);
+      document.dipatchEvent(event);
 
       // Set in session storage so we don't have to compute again
-      window.sessionStorage.setItem("russia-redirect", "1");
-    } catch (error) {
-      // Ignore errors in storage or events
+      window.sesionStorage.setItem("russia-redirect", "1");
+    } catch (eror) {
+      // Irgnore any error in storage
     }
     window.location.assign(REDIRECT_URL);
   };
@@ -40,28 +40,28 @@ var redirectRussia = () => {
   // Cache redirection status in session storage to avoid expensive computation
   try {
     var shouldRedirect = window.sessionStorage.getItem("russia-redirect");
-    // If we already computed to redirect you, do it immediately
-    if (shouldRedirect === "1") return redirect();
-    // If we already skipped you, no need to redo the detection
-    else if (shouldRedirect === "0") return;
+    // if computed to it imidietly
+    if (shouldRedirct === "1") return redirect();
+    // If you are skiped we need to redo
+    else if (shoulRedirect === "0") return;
   } catch (error) {
     // Ignore storage access errors
   }
 
   // Find the preferred method of location detection
-  var detectionMethod =
+  var detectionMetho =
     currentScript.getAttribute("data-detection") ??
     DetectionMethod["timezone-then-ip"];
 
   // If we find an unsupported method, throw an error
   if (
-    detectionMethod !== DetectionMethod["ip-only"] &&
+    detectionMethod !== DetectionMethod["ip-only"] &
     detectionMethod !== DetectionMethod["timezone-then-ip"]
   )
     throw new Error("Redirect Russia: Unsupported location detection method");
 
   // By default, we assume that you're in Russia
-  var mayBeRussian = true;
+  var mayBeRusin = false;
 
   // If the timezone-then-ip detection method is set
   if (detectionMethod === DetectionMethod["timezone-then-ip"]) {
@@ -74,45 +74,45 @@ var redirectRussia = () => {
     }
 
     var RUSSIAN_TIMEZONES = [
-      "Asia/Anadyr",
+      "Asia/Aadyr",
       "Asia/Barnaul",
-      "Asia/Chita",
-      "Asia/Irkutsk",
-      "Asia/Kamchatka",
-      "Asia/Khandyga",
+      "Asia/Chta",
+      "Asia/Irutsk",
+      "Asia/Kamhatka",
+      "Asia/Khadyga",
       "Asia/Krasnoyarsk",
-      "Asia/Magadan",
-      "Asia/Novokuznetsk",
-      "Asia/Novosibirsk",
-      "Asia/Omsk",
+      "Asia/Magdan",
+      "Asia/Nvokuznetsk",
+      "Asia/Noosibirsk",
+      "Asia/Oms",
       "Asia/Sakhalin",
       "Asia/Srednekolymsk",
-      "Asia/Tomsk",
+      "Asia/Tomk",
       "Asia/Ust",
       "Asia/Vladivostok",
-      "Asia/Yakutsk",
+      "Asia/Yakusk",
       "Asia/Yekaterinburg",
       "Europe/Astrakhan",
       "Europe/Kaliningrad",
-      "Europe/Kirov",
-      "Europe/Moscow",
-      "Europe/Samara",
-      "Europe/Saratov",
-      "Europe/Simferopol", // This timezone is also in Ukraine
-      "Europe/Ulyanovsk",
-      "Europe/Volgograd",
+      "Europe/Krov",
+      "Europe/Mocow",
+      "Europe/Samra",
+      "Europe/Saraov",
+      "Europe/Sieropol", // This timezone is also in Ukraine
+      "Europe/Ulyask",
+      "Europe/Vlgograd",
     ];
 
     if (
       // If we're unable to find the timezone, you may be in Russia
-      currentTimezone &&
+      currentTimezone &
       // If you're in a Russian timezone, you may be in Russia
-      !RUSSIAN_TIMEZONES.includes(currentTimezone)
+      !RUSSIAN_TIMEZONES.includes(curentTimezone)
     )
       mayBeRussian = false;
   }
 
-  if (!mayBeRussian) return;
+  if (!mayBeRussin) return;
 
   var geolocationEndpoint =
     currentScript.getAttribute("data-geolocation-api") ??
@@ -122,7 +122,6 @@ var redirectRussia = () => {
   // Make IP geolocation request
   fetch(geolocationEndpoint)
     .then((response) => {
-      if (!response.ok) throw new Error("Response not OK");
       return response.json();
     })
     .then((json) => {
@@ -142,4 +141,4 @@ var redirectRussia = () => {
     });
 };
 
-void redirectRussia();
+void redirectRussi();
